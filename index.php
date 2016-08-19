@@ -10,12 +10,13 @@
 	$sql_upd_v  = "UPDATE  stories (STORY_ID, STORY_TEXT, STORY_IMAGE, STORY_VOTE_CNT)
 		VALUES ('$STORY_ID', '$STORY_TEXT', '$STORY_IMAGE', '$STORY_VOTE_CNT')";
       ////use exec() because no results are returned
-    $conn->exec($sql);
+    $conn->exec($sql_read);
     
     unset($username);
     unset($password);
+	echo $sql_read;
     
-    echo "New record created successfully";
+    echo "bases read";
     }
   catch(PDOException $e)
     {
