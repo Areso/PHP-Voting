@@ -1,0 +1,2 @@
+chown www-data /var/www/vote/connection.php
+chmod 640 /var/www/vote/connection.php

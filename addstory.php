@@ -1,11 +1,15 @@
  <html>
 	<head>
+		<meta charset="utf-8"> 
 		<title>
 		</title>
  	</head>
 	<body>
 		<form action="addstory.php" method="POST" enctype="multipart/form-data">
-			File:
+			История:
+			<textarea rows="5" cols="80" name="story"></textarea>
+			<br>
+			Фотография:
 			<input type="file" name="image"> <input type="submit" value="Upload">
 		</form>
 	</body>
@@ -14,13 +18,19 @@
  <?php
 	include("connection.php");
 	try {
+		function test_input($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+		}
 		$conn = new PDO("mysql: host=$servername;port=$port;dbname=$dbname", 
 			$username, $password);
 		//// set the PDO error mode to exception
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$STORY_VOTE_CNT = 0;
 		$STORY_ID = 0;
-		$STORY_TEXT = "BLah blah blah";
+		$STORY_TEXT = $_POST["story"];
 		$file = $_FILES['image']['tmp_name'];
 		if(!isset($file))
 			echo "Please select image";
@@ -34,8 +44,8 @@
 				echo "That it is not an image";
 			else
 			{
-				$sql_read   = "SELECT * FROM STORIES";
-				$sql_ins_s  = "INSERT INTO STORIES (STORY_ID, STORY_TEXT, STORY_IMAGE, STORY_VOTE_CNT)
+				$sql_read   = "SELECT * FROM stories";
+				$sql_ins_s  = "INSERT INTO stories (STORY_ID, STORY_TEXT, STORY_IMAGE, STORY_VOTE_CNT)
 					VALUES ('$STORY_ID', '$STORY_TEXT', '$STORY_IMAGE', '$STORY_VOTE_CNT')";
 				////use exec() because no results are returned
 				$conn->exec($sql_ins_s);
